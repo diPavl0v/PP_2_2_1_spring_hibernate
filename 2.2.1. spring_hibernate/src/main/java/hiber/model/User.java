@@ -19,9 +19,21 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "car_id", unique = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "car_id", unique = true, nullable = false)
     private Car car;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (org.hibernate.Hibernate.getClass(this) != org.hibernate.Hibernate.getClass(o)) return false;
+        User that = (User) o;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() { return 31; }
 
     public User() {}
 
